@@ -1,0 +1,441 @@
+@import url('./fonts.css');
+@import '~font-awesome/css/font-awesome.css';
+
+/*
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+
+nav {
+    padding: 30px;
+}
+
+nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+    color: #42b983;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    font-family: 'Vibur', cursive;
+
+    font-family: 'Abel', sans-serif;
+    opacity: .95;
+
+}
+
+form {
+    width: 450px;
+    min-height: 500px;
+    height: auto;
+    border-radius: 5px;
+    margin: 2% auto;
+    box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
+    padding: 2%;
+    background-image: linear-gradient(-225deg, #E3FDF5 50%, #FFE6FA 50%);
+}
+
+form .con {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    margin: 0 auto;
+}
+
+
+header {
+    margin: 2% auto 10% auto;
+    text-align: center;
+}
+
+header h2 {
+    font-size: 250%;
+    font-family: 'Playfair Display', serif;
+    color: #3e403f;
+}
+
+header p {letter-spacing: 0.05em;}
+
+.input-item {
+    background: #fff;
+    color: #333;
+    padding: 14.5px 0px 15px 9px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#eye {
+    background: #fff;
+    color: #333;
+
+    margin: 5.9px 0 0 0;
+    margin-left: -20px;
+    padding: 15px 9px 19px 0px;
+    border-radius: 0px 5px 5px 0px;
+
+    float: right;
+    position: relative;
+    right: 1%;
+    top: -.2%;
+    z-index: 5;
+
+    cursor: pointer;
+}
+
+input[class="form-input"]{
+    width: 240px;
+    height: 50px;
+
+    margin-top: 2%;
+    padding: 15px;
+
+    font-size: 16px;
+    font-family: 'Abel', sans-serif;
+    color: #5E6472;
+
+    outline: none;
+    border: none;
+
+    border-radius: 0px 5px 5px 0px;
+    transition: 0.2s linear;
+
+}
+input[id="txt-input"] {width: 250px;}
+
+input:focus {
+    transform: translateX(-2px);
+    border-radius: 5px;
+}
+
+.btn {
+    display: inline-block;
+    color: #252537;
+
+    width: 280px;
+    height: 50px;
+
+    padding: 0 20px;
+    background: #fff;
+    border-radius: 5px;
+
+    outline: none;
+    border: none;
+
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s linear;
+
+    margin: 7% auto;
+    letter-spacing: 0.05em;
+}
+
+.submits {
+    width: 48%;
+    display: inline-block;
+    float: left;
+    margin-left: 2%;
+}
+
+
+.frgt-pass {background: transparent;}
+
+
+.sign-up {background: #B8F2E6;}
+
+
+
+button:hover {
+    transform: translatey(3px);
+    box-shadow: none;
+}
+
+
+button:hover {
+    animation: ani9 0.4s ease-in-out infinite alternate;
+}
+@keyframes ani9 {
+    0% {
+        transform: translateY(3px);
+    }
+    100% {
+        transform: translateY(5px);
+    }
+}
+
+.fa-user-circle:before {
+    content: "\f2bd";
+}
+
+.btn-group .active {
+    background-color: green;
+    color: white;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#input-group-1, #input-group-2, #input-group-3, #input-group-4 {
+    margin-bottom: 1rem;
+    width: 250px;
+}
+
+#input-group-1 > input, #input-group-2 > input, #input-group-3 > input, #input-group-4 > input {
+    background: #B8F2E6;
+
+}
+
+.button-time {
+    background-color: #49cc90;
+    flex: 1 1 auto;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.button-time:active,
+.button-time:hover,
+.button-time.focus,
+.button-time.active {
+    background-color: #91e3d2 !important;
+    border-color: #46812b !important;
+    color: black;
+}
+
+.submit-service {
+    width: 100%;
+}
+
+.calendar-input {
+    width: 100%;
+    height: 50px;
+
+    margin-top: 2%;
+    padding: 15px;
+
+    font-size: 16px;
+    font-family: 'Abel', sans-serif;
+    color: #5E6472;
+
+    outline: none;
+    border: none;
+
+    border-radius: 0px 5px 5px 0px;
+    transition: 0.2s linear;
+}
+
+.calendar-button {
+    background-color: #B8F2E6;
+    color: black;
+    border-color: antiquewhite;
+}
+
+.calendar-button:active,
+.calendar-button:hover,
+.calendar-button.focus,
+.calendar-button.active {
+    background-color: #91e3d2 !important;
+    border-color: #46812b !important;
+    color: black;
+}
+
+.b-form-datepicker {
+    width: auto;
+    height: 30px;
+    font-size: 16px;
+}
+
+.calendar-datepicker > .btn {
+    width: 30%;
+} */
+
+/* Add these styles to your existing CSS */
+/* You can adjust the breakpoints as per your design requirements */
+
+/* Set global styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+/* Set overlay to fill screen and center content */
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: rgba(241, 237, 237, 0.8);
+}
+
+/* Set form styles */
+.form {
+    width: 100%;
+    max-width: 540px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Set header styles */
+.head-form {
+    font-size: 2.5rem;
+    margin: 4% auto 8% auto;
+    text-align: center;
+    color: #fb90a3;
+}
+
+/* Set fieldset styles */
+.field-set {
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 2%;
+}
+fieldset {
+    padding: 10px 0;
+}
+
+/* Set datepicker styles */
+.calendar-datepicker {
+    margin-bottom: 2%;
+}
+
+/* Set input styles */
+.calendar-input {
+    margin-bottom: 2%;
+    border: none;
+    border-bottom: 1px solid #b9b9b9;
+}
+
+/* Set button group styles */
+.d-flex {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Set time button styles */
+.button-time {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #87CEFA;
+    border: none;
+}
+
+.button-time:hover {
+    background-color: #00a6fa;
+    color: #ffffff;
+}
+
+.button-time:active {
+    background-color: #00a6fa;
+    color: #ffffff;
+}
+
+.calendar-available-times {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.calendar-datepicker {
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.calendar-input {
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.calendar-button {
+    margin: 25px 10px;
+    background-color: #fb9eae;
+    color: #ffffff;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.calendar-button:hover {
+    background-color: #ff629b;
+    color: #ffffff;
+}
+
+.calendar-button:active {
+    background-color: #ff629b;
+    color: #ffffff;
+}
+
+/* Use grid to layout time buttons */
+.d-flex {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-gap: 10px;
+    margin-top: 2%;
+}
+
+/* Set label styles */
+label {
+    color: #fb90a3;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.calendar-datepicker .cell-bg {
+    background-color: black;
+    color: #333;
+    border-radius: 50%;
+}
+
+/* стили для заблокированных дат */
+.b-datepicker .b-dates .b-dates__item.is-disabled {
+    background-color: black;
+    color: white;
+}
+
+.bg-light {
+    --bs-bg-opacity: 1;
+    background-color: #fb90a338 !important;
+}
+
+.b-form-btn-label-control.form-control > .dropdown-menu {
+    width: 350px;
+}
+
+.b-calendar .b-calendar-inner {
+    width: 350px !important;
+}

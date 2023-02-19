@@ -1,0 +1,28 @@
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Test coverage output
+coverage*.*
+
+# postgres data volume used by postgres server container for testing purpose
+backend/testdata/postgres
+
+# server binary
+/sample
+
+# PID file generated to support live reload
+.pid
+
+.idea
+.vscode
+
+.env
+
+deployments/data/*
+!deployments/data/.gitkeep
+
+backend/api/swagger.json
+backend/api/api.swagger.json

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  back:
+    container_name: sample_back
+    build:
+      context: ../backend
+      dockerfile: ../deployments/build/local/back/Dockerfile
+    volumes:
+      - ../backend:/app/backend
+    env_file:
+      - ../.env.docker
+    ports:
+      - "8582:80"
+      - "9582:81"
+  db:
+    container_name: sample_db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=sample
+      - POSTGRES_PASSWORD=sample
+      - POSTGRES_DB=sample
+      - TZ=Europe/Moscow
+    ports:
+      - "15584:5432"
+    volumes:
+      - ./deployments/data/data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "sample", "-U", "sample" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  frontend:
+    container_name: sample_front
+    build:
+      context: ../frontend
+      dockerfile: ../deployments/build/local/front/Dockerfile
+    image: sample_frontend:latest
+    ports:
+      - "8583:8080"
+    volumes:
+      - ../frontend:/app/frontend

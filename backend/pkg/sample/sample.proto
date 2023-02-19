@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package sample;
+
+option go_package = "./sample";
+
+import "google/api/annotations.proto";
+//import "protoc-gen-openapiv2/options/annotations.proto";
+
+service Sample {
+  rpc Hello (SampleRequest) returns (SampleResponse) {
+    option (google.api.http) = {
+      post: "/api/hello"
+      body: "*"
+    };
+  }
+
+  rpc ServiceList (ServiceListRequest) returns (ServiceListResponse) {
+    option (google.api.http) = {
+      get: "/api/services"
+    };
+  }
+
+  rpc AppointmentList (AppointmentServiceListRequest) returns (AppointmentServiceListResponse) {
+    option (google.api.http) = {
+      get: "/api/appointments"
+    };
+  }
+
+  rpc AppointmentCreate (AppointmentServiceCreateRequest) returns (AppointmentServiceGetResponse) {
+    option (google.api.http) = {
+      post: "/api/appointments"
+      body: "*"
+    };
+  }
+}
+
+message SampleRequest {
+  string message = 1;
+}
+
+message SampleResponse {
+  string message = 1;
+}
+
+message ServiceListRequest
+{
+
+}
+
+message ServiceListResponse {
+  repeated ServiceGetResponse list = 1;
+}
+
+// Get
+message ServiceGetRequest {
+  int64 id = 1;
+}
+
+message ServiceGetResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 price = 3;
+  string time = 4;
+}
+
+// Get
+message AppointmentServiceListRequest {
+
+}
+
+message AppointmentServiceListResponse {
+  repeated string available_dates = 1;
+  map<string, AvailableTime > available_times = 2;
+}
+
+message AvailableTime {
+ repeated string times = 1;
+}
+
+// Create
+message AppointmentServiceCreateRequest {
+  // Дата записи
+  string date = 1;
+  // Время записи
+  string time = 2;
+  // Имя клиента
+  string name = 3;
+  // Номер телефона клиента
+  string phoneNumber = 4;
+}
+
+message AppointmentServiceGetResponse {
+  // ID записи
+  int64 id = 1;
+  // Дата записи
+  string date = 2;
+  // Время записи
+  string time = 3;
+  // Статус записи
+  int32 status_id = 4;
+  // Имя клиента
+  string name = 5;
+  // Номер телефона клиента
+  string phoneNumber = 6;
+}
+

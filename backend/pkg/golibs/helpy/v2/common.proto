@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package helpy;
+
+option go_package = "git.id-network.ru/golibs/helpy/v2";
+
+enum Operation {
+    // Default
+    _ = 0;
+
+    // =
+    eq = 1;
+
+    // !=
+    neq = 2;
+
+    // >
+    gt = 3;
+
+    // >=
+    gte = 4;
+
+    // <
+    lt = 5;
+
+    // <=
+    lte = 6;
+
+    // ILIKE '...%' (strings only)
+    begins = 7;
+
+    // ILIKE '%...%' (strings only)
+    contains = 8;
+
+    // ILIKE '...' (strings only)
+    equal = 9;
+}
+
+enum OperationMulti {
+    // IN
+    in = 0;
+
+    // NOT IN
+    nin = 1;
+}
+
+enum SortDirection {
+    asc = 0;
+    desc = 1;
+}
+
+// Filter by single value
+message FilterItem
+{
+    string value = 1;
+    Operation op = 2;
+}
+
+// Filter by multiple values
+message FilterItemMulti
+{
+    repeated string values = 1;
+    OperationMulti op = 2;
+}
+
+// Filter by range values
+message FilterItemRange
+{
+    string from = 1;
+    string to = 2;
+}
+
+message FilterSort
+{
+    string field = 1;
+    SortDirection dir = 2;
+}
+
+message FilterPage
+{
+    optional int32 page = 1;
+    optional int32 per_page = 2;
+}
