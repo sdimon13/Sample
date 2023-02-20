@@ -27,9 +27,9 @@ RUN go install \
         google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
 # copy source files and build the binary
-COPY .. .
+COPY . .
 
 RUN make proto
 
 RUN make build
-CMD ["/sample"]
+CMD ["/sample", "api"]

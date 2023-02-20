@@ -54,7 +54,7 @@ run-live: ## run the API server with live reload support (requires fswatch)
 
 .PHONY: build
 build:  ## build the API server binary
-	CGO_ENABLED=0 go build ${LDFLAGS} -a -o /sample -v ./cmd/sample
+	CGO_ENABLED=0 go build ${LDFLAGS} -a -o /sample -v ./backend/cmd/sample
 
 .PHONY: docker-build
 docker-build: ## build the API server as a docker image
@@ -75,6 +75,11 @@ docker-down: ## remove docker images
 .PHONY: docker-rebuild
 docker-rebuild: ## re-build the API server as a docker image
 	docker-compose -f deployments/docker-compose.yml -p sample down && docker-compose -f deployments/docker-compose.yml -p sample up -d --build
+
+.PHONY: docker-prune
+docker-prune: ## Generate proto
+	docker rmi $(docker images -a -q) -f
+	docker image prune -a -f
 
 .PHONY: app-shell
 app-shell: ## bash into app container
