@@ -367,6 +367,10 @@ fieldset {
     color: #ffffff;
 }
 
+.btn-active {
+    background-color: #00a6fa;
+}
+
 .calendar-available-times {
     margin-top: 2%;
     margin-bottom: 2%;

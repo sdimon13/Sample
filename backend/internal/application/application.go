@@ -68,12 +68,15 @@ func Get(mode string) (*Application, error) {
 
 		// Init repository
 		a := repository.NewAppointment(dbc)
+		c := repository.NewClient(dbc)
 
 		// Init service
 		as := service.NewAppointmentService(a)
+		cs := service.NewClientService(c)
 
 		s := &server.Server{
 			AppointmentService: as,
+			ClientService:      cs,
 		}
 		servers = append(servers, s)
 

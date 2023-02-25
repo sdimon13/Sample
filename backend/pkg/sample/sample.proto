@@ -27,10 +27,23 @@ service Sample {
     };
   }
 
+  rpc AdminAppointmentList (AppointmentServiceListRequest) returns (AdminAppointmentServiceListResponse) {
+    option (google.api.http) = {
+      get: "/api/admin/appointments"
+    };
+  }
+
   rpc AppointmentCreate (AppointmentServiceCreateRequest) returns (AppointmentServiceGetResponse) {
     option (google.api.http) = {
       post: "/api/appointments"
       body: "*"
+    };
+  }
+
+  // Обновление критерия доступа оператора по ID
+  rpc AppointmentUpdate (AppointmentServiceUpdateRequest) returns (AppointmentServiceGetResponse) {
+    option (google.api.http) = {
+      patch: "/api/appointments/{id}"
     };
   }
 }
@@ -70,13 +83,35 @@ message AppointmentServiceListRequest {
 }
 
 message AppointmentServiceListResponse {
-  repeated string available_dates = 1;
-  map<string, AvailableTime > available_times = 2;
+  repeated string availableDates = 1;
+  map<string, AvailableTime> availableTimes = 2;
 }
 
 message AvailableTime {
- repeated string times = 1;
+  repeated TimeSlot time_slots = 1;
 }
+
+message TimeSlot {
+  int64 id = 1;
+  string time = 2;
+}
+
+message AdminAppointmentServiceListResponse {
+  repeated string availableDates = 1;
+  map<string, AdminAvailableTime> availableTimes = 2;
+}
+
+message AdminAvailableTime {
+  repeated AdminTimeSlot time_slots = 1;
+}
+
+message AdminTimeSlot {
+  int64 id = 1;
+  string time = 2;
+  string name = 3;
+  string phone= 4;
+}
+
 
 // Create
 message AppointmentServiceCreateRequest {
@@ -88,6 +123,21 @@ message AppointmentServiceCreateRequest {
   string name = 3;
   // Номер телефона клиента
   string phoneNumber = 4;
+}
+
+message AppointmentServiceUpdateRequest {
+  // Id записи
+  int64 id = 1;
+  // Дата записи
+  string date = 2;
+  // Время записи
+  string time = 3;
+  // Имя клиента
+  string name = 4;
+  // Номер телефона клиента
+  string phoneNumber = 5;
+  // Комментарий
+  string note = 6;
 }
 
 message AppointmentServiceGetResponse {
@@ -103,5 +153,8 @@ message AppointmentServiceGetResponse {
   string name = 5;
   // Номер телефона клиента
   string phoneNumber = 6;
+  // Комментарий
+  string note = 7;
 }
+
 
