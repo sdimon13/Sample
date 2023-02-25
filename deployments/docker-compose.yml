@@ -40,4 +40,4 @@ services:
     ports:
       - "8583:8080"
     volumes:
-      - ../frontend:/app/frontend
+      - ../frontend:/app

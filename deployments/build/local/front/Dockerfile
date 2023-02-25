@@ -9,9 +9,6 @@ COPY package*.json ./
 
 # Устанавливаем зависимости
 RUN npm install
-RUN npm install -g @vue/cli-service
-RUN npm install -g @vue/cli-plugin-babel
-RUN npm install @vue/cli-plugin-eslint
 
 # Копируем остальные файлы проекта
 COPY . .
