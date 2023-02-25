@@ -25,7 +25,10 @@ type SampleClient interface {
 	Hello(ctx context.Context, in *SampleRequest, opts ...grpc.CallOption) (*SampleResponse, error)
 	ServiceList(ctx context.Context, in *ServiceListRequest, opts ...grpc.CallOption) (*ServiceListResponse, error)
 	AppointmentList(ctx context.Context, in *AppointmentServiceListRequest, opts ...grpc.CallOption) (*AppointmentServiceListResponse, error)
+	AdminAppointmentList(ctx context.Context, in *AppointmentServiceListRequest, opts ...grpc.CallOption) (*AdminAppointmentServiceListResponse, error)
 	AppointmentCreate(ctx context.Context, in *AppointmentServiceCreateRequest, opts ...grpc.CallOption) (*AppointmentServiceGetResponse, error)
+	// Обновление критерия доступа оператора по ID
+	AppointmentUpdate(ctx context.Context, in *AppointmentServiceUpdateRequest, opts ...grpc.CallOption) (*AppointmentServiceGetResponse, error)
 }
 
 type sampleClient struct {
@@ -63,9 +66,27 @@ func (c *sampleClient) AppointmentList(ctx context.Context, in *AppointmentServi
 	return out, nil
 }
 
+func (c *sampleClient) AdminAppointmentList(ctx context.Context, in *AppointmentServiceListRequest, opts ...grpc.CallOption) (*AdminAppointmentServiceListResponse, error) {
+	out := new(AdminAppointmentServiceListResponse)
+	err := c.cc.Invoke(ctx, "/sample.Sample/AdminAppointmentList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *sampleClient) AppointmentCreate(ctx context.Context, in *AppointmentServiceCreateRequest, opts ...grpc.CallOption) (*AppointmentServiceGetResponse, error) {
 	out := new(AppointmentServiceGetResponse)
 	err := c.cc.Invoke(ctx, "/sample.Sample/AppointmentCreate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sampleClient) AppointmentUpdate(ctx context.Context, in *AppointmentServiceUpdateRequest, opts ...grpc.CallOption) (*AppointmentServiceGetResponse, error) {
+	out := new(AppointmentServiceGetResponse)
+	err := c.cc.Invoke(ctx, "/sample.Sample/AppointmentUpdate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +100,10 @@ type SampleServer interface {
 	Hello(context.Context, *SampleRequest) (*SampleResponse, error)
 	ServiceList(context.Context, *ServiceListRequest) (*ServiceListResponse, error)
 	AppointmentList(context.Context, *AppointmentServiceListRequest) (*AppointmentServiceListResponse, error)
+	AdminAppointmentList(context.Context, *AppointmentServiceListRequest) (*AdminAppointmentServiceListResponse, error)
 	AppointmentCreate(context.Context, *AppointmentServiceCreateRequest) (*AppointmentServiceGetResponse, error)
+	// Обновление критерия доступа оператора по ID
+	AppointmentUpdate(context.Context, *AppointmentServiceUpdateRequest) (*AppointmentServiceGetResponse, error)
 	mustEmbedUnimplementedSampleServer()
 }
 
@@ -96,8 +120,14 @@ func (UnimplementedSampleServer) ServiceList(context.Context, *ServiceListReques
 func (UnimplementedSampleServer) AppointmentList(context.Context, *AppointmentServiceListRequest) (*AppointmentServiceListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AppointmentList not implemented")
 }
+func (UnimplementedSampleServer) AdminAppointmentList(context.Context, *AppointmentServiceListRequest) (*AdminAppointmentServiceListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminAppointmentList not implemented")
+}
 func (UnimplementedSampleServer) AppointmentCreate(context.Context, *AppointmentServiceCreateRequest) (*AppointmentServiceGetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AppointmentCreate not implemented")
+}
+func (UnimplementedSampleServer) AppointmentUpdate(context.Context, *AppointmentServiceUpdateRequest) (*AppointmentServiceGetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AppointmentUpdate not implemented")
 }
 func (UnimplementedSampleServer) mustEmbedUnimplementedSampleServer() {}
 
@@ -166,6 +196,24 @@ func _Sample_AppointmentList_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Sample_AdminAppointmentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AppointmentServiceListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SampleServer).AdminAppointmentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sample.Sample/AdminAppointmentList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SampleServer).AdminAppointmentList(ctx, req.(*AppointmentServiceListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Sample_AppointmentCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AppointmentServiceCreateRequest)
 	if err := dec(in); err != nil {
@@ -180,6 +228,24 @@ func _Sample_AppointmentCreate_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SampleServer).AppointmentCreate(ctx, req.(*AppointmentServiceCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sample_AppointmentUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AppointmentServiceUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SampleServer).AppointmentUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sample.Sample/AppointmentUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SampleServer).AppointmentUpdate(ctx, req.(*AppointmentServiceUpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -204,8 +270,16 @@ var Sample_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Sample_AppointmentList_Handler,
 		},
 		{
+			MethodName: "AdminAppointmentList",
+			Handler:    _Sample_AdminAppointmentList_Handler,
+		},
+		{
 			MethodName: "AppointmentCreate",
 			Handler:    _Sample_AppointmentCreate_Handler,
+		},
+		{
+			MethodName: "AppointmentUpdate",
+			Handler:    _Sample_AppointmentUpdate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

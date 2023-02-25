@@ -7,14 +7,15 @@
         </header>
         <div class="field-set">
           <b-form-group id="input-group-1" label="Выберите дату">
-            <b-form-datepicker v-model="selectedDate" :date-disabled-fn="dateDisabledFn" class="calendar-datepicker"></b-form-datepicker>
+            <b-form-datepicker v-model="selectedDate" @input="fetchAvailableDatesAndTimes()" :date-disabled-fn="dateDisabledFn" class="calendar-datepicker"></b-form-datepicker>
           </b-form-group>
           <b-form-group id="input-group-2" v-if="timesForSelectedDate.length" label="Выберите время"
                         class="calendar-available-times">
             <b-btn-group class="d-flex">
-              <b-btn class="button-time" v-for="time in timesForSelectedDate" :key="time"
+              <b-btn class="button-time" v-for="time in timesForSelectedDate" :key="time.id"
+                     :class="{ 'btn-active': selectedTime === time }"
                      @click="selectedTime = time">
-                {{ time }}
+                {{ time.time }}
               </b-btn>
             </b-btn-group>
           </b-form-group>
@@ -23,7 +24,7 @@
           </b-form-group>
           <b-form-group id="input-group-4">
             <b-form-input class="calendar-input" type="tel" v-model="phoneNumber" placeholder="Номер телефона" v-mask="'+7 (###) ###-##-##'">
-                <vue-the-mask mask="+7 (###) ###-##-##" />
+              <vue-the-mask mask="+7 (###) ###-##-##" />
             </b-form-input>
           </b-form-group>
         </div>
@@ -68,28 +69,52 @@ export default {
     async fetchAvailableDatesAndTimes() {
       try {
         const response = await axios.get('http://localhost:8682/api/appointments');
-        this.availableDates = response.data.availableDates;
-        this.availableTimes = response.data.availableTimes;
+        const availableDates = response.data.availableDates;
+        const availableTimes = {};
+
+        // Преобразование временных слотов в объект, содержащий массив времен для каждой даты
+        for (const [date, { timeSlots }] of Object.entries(response.data.availableTimes)) {
+          availableTimes[date] = { times: [] };
+          timeSlots.forEach(({ id, time }) => {
+            availableTimes[date].times.push({ id, time });
+          });
+        }
+
+        this.availableDates = availableDates;
+        this.availableTimes = availableTimes;
       } catch (error) {
         console.error(error);
       }
     },
     async submitForm() {
       const appointment = {
+        appointmentId: this.selectedTime.id,
         date: this.selectedDate,
-        time: this.selectedTime,
+        time: this.selectedTime.time,
         name: this.name,
-        phoneNumber: this.phoneNumber
+        phoneNumber: this.removeFormatting(this.phoneNumber)
       };
       try {
-        await axios.post('http://localhost:8682/api/appointments', appointment);
-        alert('Ваша запись успешно сохранена');
+        await axios.patch(`http://localhost:8682/api/appointments/${appointment.appointmentId}`, null, {
+          params: {
+            date: appointment.date,
+            time: appointment.time,
+            name: appointment.name,
+            phoneNumber: appointment.phoneNumber
+          }
+        });
+        alert('Вы успешно записаны!');
+        await this.fetchAvailableDatesAndTimes();
       } catch (error) {
-        alert('Произошла ошибка при сохранении вашей записи');
+        alert('Упс, кажется уже кто-то занял Ваше время, попробуйте выбрать другое.');
+        await this.fetchAvailableDatesAndTimes();
       }
     },
     dateDisabledFn(date) {
       return this.availableDates.length && !this.availableDates.includes(date);
+    },
+    removeFormatting(phoneNumber) {
+      return phoneNumber.replace(/\D/g, '');
     }
   }
 };

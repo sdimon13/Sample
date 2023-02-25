@@ -32,4 +32,4 @@ COPY .. .
 RUN make proto
 
 RUN make build
-CMD ["/sample"]
+CMD ["/sample", "api"]

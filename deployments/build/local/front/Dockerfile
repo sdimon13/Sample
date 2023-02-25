@@ -1,12 +1,20 @@
-FROM node:16
+# Используем официальный образ node.js в качестве базового
+FROM node:latest
 
-WORKDIR /app/frontend
+# Устанавливаем рабочую директорию
+WORKDIR /app
 
+# Копируем файлы package.json и package-lock.json
 COPY package*.json ./
-RUN npm install -g @vue/cli
 
+# Устанавливаем зависимости
+RUN npm install
+RUN npm install -g @vue/cli-service
+RUN npm install -g @vue/cli-plugin-babel
+RUN npm install @vue/cli-plugin-eslint
+
+# Копируем остальные файлы проекта
 COPY . .
 
-EXPOSE 8080
-
-CMD ["npm", "run", "serve"]
+# Запускаем проект
+CMD [ "npm", "run", "serve" ]

@@ -13,6 +13,7 @@ import (
 type Server struct {
 	*pb.UnimplementedSampleServer
 	*service.AppointmentService
+	*service.ClientService
 }
 
 func (s *Server) Hello(ctx context.Context, in *pb.SampleRequest) (*pb.SampleResponse, error) {

@@ -15,7 +15,7 @@ services:
       - "9582:81"
   db:
     container_name: sample_db
-    image: postgres
+    image: postgres:14.3
     restart: always
     environment:
       - POSTGRES_USER=sample
